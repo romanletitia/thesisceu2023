@@ -181,6 +181,48 @@ ggplot(nscs, aes(x = year, y = agg)) +
   geom_vline(xintercept = 2006, linetype = "dashed", color = "black", size = 1.2)
 
 
+#MAP SOMALIA
+
+library(sf)
+library(ggpubr)
+
+somalia<- st_read("som_admbnda_adm2_ocha_20230308.shp")
+
+somalia <- somalia %>% 
+  group_by(ADM1_EN) %>% 
+  mutate(centroid = st_centroid(geometry))
+
+ggplot(data = somalia) +
+  geom_sf(aes(fill = case_when(
+    ADM1_EN %in% c("Sanaag", "Sool") ~ "Drought",
+    ADM1_EN == "Nugaal" ~ "Tsunami",
+    TRUE ~ "Normal"), geometry = geometry), color = "black") +
+  theme_pubr(base_size = 12, base_family = "EBGaramond") +
+  theme(legend.position = "right", legend.direction = "horizontal") +
+  geom_point(aes(x = 46.4153, y = 8.9541, color = "Violent outbreaks"), shape = 17, size = 3) +
+  geom_point(aes(x = 46.4153, y = 8.9541, color = "Violent outbreaks"), shape = 1, size = 7) +
+  geom_point(aes(x = 46.4153, y = 8.9541, color = "Violent outbreaks"), shape = 1, size = 11) +
+  geom_point(aes(x = 46.4153, y = 8.9541, color = "Violent outbreaks"), shape = 1, size = 14) +
+  geom_point(aes(x = 49.8151, y = 7.9808, color = "Violent outbreaks"), shape = 17, size=3) +
+  geom_point(aes(x = 49.8151, y = 7.9808, color = "Violent outbreaks"), shape = 1, size=7) +
+  geom_point(aes(x = 49.8151, y = 7.9808, color = "Violent outbreaks"), shape = 1, size=11) +
+  geom_point(aes(x = 49.8151, y = 7.9808, color = "Violent outbreaks"), shape = 1, size=14) +
+  geom_point(aes(x = 47.2167, y = 9.9279, color = "Violent outbreaks"), shape = 17, size = 3) +
+  geom_point(aes(x = 47.2167, y = 9.9279, color = "Violent outbreaks"), shape = 1, size = 7) +
+  geom_point(aes(x = 47.2167, y = 9.9279, color = "Violent outbreaks"), shape = 1, size = 11) +
+  geom_point(aes(x = 47.2167, y = 9.9279, color = "Violent outbreaks"), shape = 1, size = 14) +
+  scale_fill_manual(values = c("Drought" = "darkgoldenrod1", "Normal" = "cornsilk", "Tsunami" = "cornflowerblue"), 
+                    name = "Extreme weather condition:", 
+                    labels = c("Drought", "Normal", "Tsunami")) +
+  scale_color_manual(values = c("Violent outbreaks" = "red4"), name = " Events", labels = c("Violent outbreaks. Total number of casualties in 2005 = 600 (UCDP, 2023)"))+
+  theme(axis.title = element_blank()) +
+  geom_text(aes(x = st_coordinates(centroid)[, 1],
+                y = st_coordinates(centroid)[, 2],
+                label = ADM1_EN),
+            check_overlap = TRUE, fontface = "bold")  # make the text bold
+
+
+
 
 
 
