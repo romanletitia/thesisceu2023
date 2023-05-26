@@ -35,6 +35,7 @@ QCAfit(data[, 4:10],
 # Include all possible combinations of conditions
 TT_y <- truthTable(data = data,
                    outcome  = "OUTCOME",
+                   cases=TRUE,
                    conditions = conds,
                    incl.cut = 0.84,
                    n.cut = 1,
@@ -56,6 +57,8 @@ sol_yc
 # Return detailed information about the minimization
 sol_yp <- minimize(TT_y,
                    details = TRUE,
+                   complete=TRUE,
+                   cases=TRUE,
                    include = "?")
 
 # Print the most parsimonious solution
@@ -142,10 +145,7 @@ ggplot(nsce, aes(x = year, y = agg)) +
   scale_x_continuous(breaks = seq(1991, 2006, by = 1)) +
   scale_y_continuous(breaks = seq(25, 1100, by = 50)) +
   theme_pubclean(base_family = "Garamond", base_size = 18) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  geom_text(x = 2002, y = 755, label = "Spike in violence", color = "black", size = 5, fontface = "bold") +
-  geom_vline(xintercept = 1994, linetype = "dashed", color = "black", size = 1.2)+
-  geom_vline(xintercept = 2006, linetype = "dashed", color = "black", size = 1.2)
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
 
 
 
@@ -167,9 +167,12 @@ font_import(pattern = "Garamond")
 
 # Customizing the plot with Garamond font
 ggplot(nscs, aes(x = year, y = agg)) +
-  geom_line(color = "burlywood", size = 1.5, linetype = "solid") +
-  geom_point(size = 2, color = "darksalmon") +
-  geom_point(size = 5, shape = 24, color = "burlywood") +
+  geom_line(color = "black", size = 1.5, linetype = "solid") +
+  geom_point(size = 2, color = "red3") +
+  geom_point(size = 5, shape = 24, color = "black") +
+  geom_rect(aes(xmin = 2001, xmax = 2004, ymin = -Inf, ymax = Inf), fill = "gray89", alpha = 0.07) +
+  geom_rect(aes(xmin = 2003.75, xmax = 2004.5, ymin = -Inf, ymax = Inf), fill = "red3", alpha = 0.07) +
+  geom_rect(aes(xmin = 2004.5, xmax = 2006, ymin = -Inf, ymax = Inf), fill = "grey59", alpha = 0.07) +
   labs(x = "Year", y = "Number of Casualties") +
   ggtitle("Number of Casualties per Year, Somalia") +
   scale_x_continuous(breaks = seq(1991, 2006, by = 1)) +
@@ -177,8 +180,8 @@ ggplot(nscs, aes(x = year, y = agg)) +
   theme_pubclean(base_family = "Garamond", base_size = 18) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   geom_text(x = 2004, y = 625, label = "Spike in violence", color = "black", size = 5, fontface = "bold") +
-  geom_vline(xintercept = 2000, linetype = "dashed", color = "black", size = 1.2)+
-  geom_vline(xintercept = 2006, linetype = "dashed", color = "black", size = 1.2)
+  geom_vline(xintercept = 2001, linetype = "dashed", color = "black", size = 1.2)+
+  geom_vline(xintercept = 2006, linetype = "dashed", color = "red4", size = 1.2)
 
 
 #MAP SOMALIA
